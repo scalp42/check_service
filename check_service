@@ -1,11 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 ## check_service.sh for nagios check in /Users/fresh/nagios/check_service
 ##
 ## Made by Anthony Scalisi
 ## <scalisi.a@gmail.com>
 ##
 ## Started on  Mon Jun 11 14:01:10 2012 Anthony Scalisi
-## Last update Wed Jun 13 12:03:38 2012 Anthony Scalisi
+## Last update Wed Jun 13 15:07:46 2012 Anthony Scalisi
 ##
 
 OK_STATE=0
@@ -31,7 +31,7 @@ if printf "$solaris"; then
 		echo "OK - $service is online."
 		exit ${OK_STATE}
 	elif echo "$cmd" | grep -qEi "maintenance.*$service"; then
-		echo "WARNING - $service is in a maitenance state."
+		echo "WARNING - $service is in a maintenance state."
 		exit ${WARNING_STATE}
 	elif echo "$cmd" | grep -qEi "degraded.*$service"; then
 		echo "CRITICAL - $service is in a degraded mode."
