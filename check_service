@@ -36,11 +36,11 @@ if printf "$solaris"; then
 	elif echo "$cmd" | grep -qEi "degraded.*$service"; then
 		echo "CRITICAL - $service is in a degraded mode."
 		exit ${CRITICAL_STATE}
-	elif echo "$cmd" | grep -qEi "$service"; then
-		echo "CRITICAL - $service is offline."
-		exit ${CRITICAL_STATE}
-	else
-		echo "UNKNOWN - could not determine state of $service."
-		exit ${UNKNOWN_STATE}
-	fi
+        else
+                echo "CRITICAL - $service is offline."
+                exit ${CRITICAL_STATE}
+        fi
+else
+        echo "UNKNOWN - could not determine state of $service."
+        exit ${UNKNOWN_STATE}
 fi
