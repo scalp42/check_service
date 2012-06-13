@@ -1,0 +1,41 @@
+#!/bin/sh
+## check_service.sh for nagios check in /Users/fresh/nagios/check_service
+##
+## Made by Anthony Scalisi
+## <scalisi.a@gmail.com>
+##
+## Started on  Mon Jun 11 14:01:10 2012 Anthony Scalisi
+## Last update Wed Jun 13 12:03:38 2012 Anthony Scalisi
+##
+
+OK_STATE=0
+WARNING_STATE=1
+CRITICAL_STATE=2
+UNKNOWN_STATE=3
+EXPECTED_ARGS=1
+E_BADARGS=65
+
+if [ $# -ne $EXPECTED_ARGS ]
+then
+    echo "Usage: `basename $0` [service name]"
+    exit ${UNKNOWN_STATE}
+fi
+
+solaris=`uname -a | grep -qi solaris`
+
+service="$1"
+
+echo $service
+
+if echo $solaris; then
+	cmd=`/usr/bin/svcs -a`
+	echo "solaris box"
+fi
+
+if echo "$cmd" | grep -qEi "online.*$service"; then
+	echo "OK - $service is running."
+	exit ${OK_STATE}
+else
+	echo "CRITICAL - $service not running."
+	exit ${CRITICAL_STATE}
+fi
