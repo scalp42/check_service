@@ -25,9 +25,8 @@ solaris=`uname -a | grep -qi solaris`
 
 service="$1"
 
-if echo $solaris; then
+if echo -n $solaris; then
 	cmd=`/usr/bin/svcs -a`
-	echo "solaris box"
 	if echo "$cmd" | grep -qEi "online.*$service"; then
 		echo "OK - $service is online."
 		exit ${OK_STATE}
