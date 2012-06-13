@@ -25,7 +25,7 @@ solaris=`uname -a | grep -qi solaris`
 
 service="$1"
 
-if echo -n $solaris; then
+if prinft "$solaris"; then
 	cmd=`/usr/bin/svcs -a`
 	if echo "$cmd" | grep -qEi "online.*$service"; then
 		echo "OK - $service is online."
