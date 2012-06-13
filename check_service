@@ -25,17 +25,22 @@ solaris=`uname -a | grep -qi solaris`
 
 service="$1"
 
-echo $service
-
 if echo $solaris; then
 	cmd=`/usr/bin/svcs -a`
 	echo "solaris box"
-fi
-
-if echo "$cmd" | grep -qEi "online.*$service"; then
-	echo "OK - $service is running."
-	exit ${OK_STATE}
-else
-	echo "CRITICAL - $service not running."
-	exit ${CRITICAL_STATE}
+	if echo "$cmd" | grep -qEi "online.*$service"; then
+		echo "OK - $service is online."
+		exit ${OK_STATE}
+	elif echo "$cmd" | grep -qEi "maintenance.*$service";
+		echo "WARNING - $service is in a maitenance state."
+		exit ${WARNING_STATE}
+	elif echo "$cmd" | grep -qEi "degraded.*$service";
+		echo "CRITICAL - $service is in a degraded mode."
+		exit ${CRITICAL_STATE}
+	elif echo "$cmd" | grep -qEi "$service";
+		echo "CRITICAL - $service is offline."
+	else
+		echo "UNKNOWN - could not determine state of $service."
+		echo ${UNKNOWN_STATE}
+	fi
 fi
