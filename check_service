@@ -31,13 +31,13 @@ if echo $solaris; then
 	if echo "$cmd" | grep -qEi "online.*$service"; then
 		echo "OK - $service is online."
 		exit ${OK_STATE}
-	elif echo "$cmd" | grep -qEi "maintenance.*$service";
+	elif echo "$cmd" | grep -qEi "maintenance.*$service"; then
 		echo "WARNING - $service is in a maitenance state."
 		exit ${WARNING_STATE}
-	elif echo "$cmd" | grep -qEi "degraded.*$service";
+	elif echo "$cmd" | grep -qEi "degraded.*$service"; then
 		echo "CRITICAL - $service is in a degraded mode."
 		exit ${CRITICAL_STATE}
-	elif echo "$cmd" | grep -qEi "$service";
+	elif echo "$cmd" | grep -qEi "$service"; then
 		echo "CRITICAL - $service is offline."
 	else
 		echo "UNKNOWN - could not determine state of $service."
