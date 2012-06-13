@@ -38,8 +38,9 @@ if printf "$solaris"; then
 		exit ${CRITICAL_STATE}
 	elif echo "$cmd" | grep -qEi "$service"; then
 		echo "CRITICAL - $service is offline."
+		exit ${CRITICAL_STATE}
 	else
 		echo "UNKNOWN - could not determine state of $service."
-		echo ${UNKNOWN_STATE}
+		exit ${UNKNOWN_STATE}
 	fi
 fi
