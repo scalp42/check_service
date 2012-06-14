@@ -5,7 +5,7 @@
 ## <scalisi.a@gmail.com>
 ##
 ## Started on  Mon Jun 11 14:01:10 2012 Anthony Scalisi
-## Last update Wed Jun 13 15:07:46 2012 Anthony Scalisi
+## Last update Thu Jun 14 15:44:46 2012 Anthony Scalisi
 ##
 
 OK_STATE=0
@@ -29,22 +29,25 @@ suse=""
 service="$1"
 
 if printf "$solaris"; then
-        svcs="/usr/bin/svcs -a"
-        grep="/opt/local/bin/grep"
-        if $svcs | $grep -qEi "online.*$service"; then
-                echo "OK - $service is online."
-                exit ${OK_STATE}
-        elif $svcs | $grep -qEi "maintenance.*$service"; then
-                echo "WARNING - $service is in a maintenance state."
-                exit ${WARNING_STATE}
-        elif $svcs | $grep -qEi "degraded.*$service"; then
-                echo "CRITICAL - $service is in a degraded mode."
-                exit ${CRITICAL_STATE}
-        else
-                echo "CRITICAL - $service is offline."
-                exit ${CRITICAL_STATE}
-        fi
+    svcs="/usr/bin/svcs -a"
+    grep="/opt/local/bin/grep"
+    if $svcs | $grep -qEi "maintenance.*$service"; then
+        echo "WARNING - $service is in a maintenance state."
+        exit ${WARNING_STATE}
+    elif $svcs | $grep -qEi "degraded.*$service"; then
+        echo "CRITICAL - $service is in a degraded mode."
+        exit ${CRITICAL_STATE}
+#	elif $svcs | $grep -qEi "disabled.*$service"; then
+#                echo "CRITICAL - $service is disabled."
+#                exit ${CRITICAL_STATE}
+    elif $svcs | $grep -qEi "online.*$service"; then
+        echo "OK - $service is online."
+        exit ${OK_STATE}
+    else
+        echo "CRITICAL - $service is offline."
+        exit ${CRITICAL_STATE}
+    fi
 else
-        echo "UNKNOWN - could not determine state of $service."
-        exit ${UNKNOWN_STATE}
+    echo "UNKNOWN - could not determine state of $service."
+    exit ${UNKNOWN_STATE}
 fi
