@@ -30,7 +30,7 @@ service="$1"
 
 if printf "$solaris"; then
     svcs="/usr/bin/svcs -a"
-    grep="/opt/local/bin/grep"
+    grep="/usr/xpg4/bin/grep"
     if $svcs | $grep -qEi "maintenance.*$service"; then
         echo "WARNING - $service is in a maintenance state."
         exit ${WARNING_STATE}
